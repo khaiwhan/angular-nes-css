@@ -1,0 +1,24 @@
+<div class="d-flex justify-between toolbar">
+    <a class="nes-btn" [routerLink]="''">Back</a>
+    <button type="button" class="nes-btn is-primary" (click)="save()">Save</button>
+</div>
+
+<div class="container" [formGroup]="form">
+    <div class="nes-field">
+        <label for="name_field">Item Code</label>
+        <input type="text" class="nes-input" formControlName="code">
+    </div>
+    <div class="nes-field">
+        <label for="textarea_field">Description</label>
+        <textarea id="textarea_field" class="nes-textarea" formControlName="description"></textarea>
+    </div>
+
+    <input class="d-none" type="checkbox" formControlName="active">
+
+    <div class="nes-field">
+        <i class="nes-icon is-large star"
+            (click)="form.controls['active'].setValue(!form.controls['active'].getRawValue())"
+            [ngClass]="{'is-empty': !form.controls['active'].getRawValue()}"></i>
+        <span> Active</span>
+    </div>
+</div>

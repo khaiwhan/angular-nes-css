@@ -1,0 +1,39 @@
+<div class="container">
+    <div class="nes-field d-flex justify-between">
+        <input type="text" placeholder="search" class="nes-input w-50">
+        <button type="button" class="nes-btn is-primary is-large" [routerLink]="'/detail'">Add</button>
+    </div>
+    <table class="nes-table is-bordered is-centered w-100">
+        <thead>
+            <tr>
+                <th>Item Code</th>
+                <th>Description</th>
+                <th>Active</th>
+                <th>Created Date</th>
+                <th>Updated Date</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (item of items; track $index) {
+            <tr>
+                <td class="text-center">
+                    <a [routerLink]="'detail'" [state]="{item : item}">{{ item.code }}</a>
+                </td>
+                <td>{{ item.description }}</td>
+                <td class="text-center">
+                    @if(item.active){
+                    <i class="nes-icon star"></i>
+                    }
+                    @else {
+                    <i class="nes-icon star is-empty"></i>
+                    }
+                </td>
+                <td>{{ item.created_date | date }}</td>
+                <td>{{ item.updated_date | date }}</td>
+                <td class="text-center"><button type="button" class="nes-btn is-error" (click)="delete(item.id)">Delete</button></td>
+            </tr>
+            }
+        </tbody>
+    </table>
+</div>
