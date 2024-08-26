@@ -16,9 +16,16 @@ import { Item } from '../item.interface';
 export class DetailComponent {
 
   form: FormGroup = new FormGroup({
+    id: new FormControl(),
     code: new FormControl(null, Validators.required),
     description: new FormControl(),
-    active: new FormControl(true)
+    active: new FormControl(true),
+    created_by: new FormControl(),
+    created_date: new FormControl(),
+    created_program: new FormControl(),
+    updated_by: new FormControl(),
+    updated_date: new FormControl(),
+    updated_program: new FormControl()
   })
   updatemode: boolean = false
 
