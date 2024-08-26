@@ -5,6 +5,6 @@ import { detailResolver } from './detail/detail.resolver';
 
 export const routes: Routes = [
     { path: '', component: ListComponent },
-    { path: 'detail', component: DetailComponent, resolve: { detail: detailResolver } },
+    { path: 'detail', component: DetailComponent, resolve: { detail: detailResolver }, title: "Detail" },
     { path: '**', pathMatch: 'full', redirectTo: '' }
 ];
