@@ -11,7 +11,6 @@ import { Item } from '../item.interface';
   imports: [RouterModule, FormsModule, ReactiveFormsModule, CommonModule],
   templateUrl: './detail.component.html',
   styleUrl: './detail.component.sass',
-  providers: [AppService]
 })
 export class DetailComponent {
 

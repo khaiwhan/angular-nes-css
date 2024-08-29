@@ -11,7 +11,6 @@ import { Item } from '../item.interface';
   imports: [RouterOutlet, CommonModule, FormsModule, RouterModule],
   templateUrl: './list.component.html',
   styleUrl: './list.component.sass',
-  providers: [AppService]
 })
 export class ListComponent {
   items: Item[] = []

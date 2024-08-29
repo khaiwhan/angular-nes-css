@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Item } from './item.interface';
 import { Observable } from 'rxjs';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class AppService {
 
   constructor(private http: HttpClient) { }
