@@ -36,13 +36,16 @@ jobs:
         sudo curl -L "https://github.com/docker/compose/releases/download/v${DOCKER_COMPOSE_VERSION}/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
         sudo chmod +x /usr/local/bin/docker-compose
 
+    - name: Create network
+      run: docker network create virtual-network
+
     - name: Build and Run Web Application
       working-directory: ./
       run: |
         echo "Building Docker image for web application..."
         docker build -t angular-nes-css -f ./dockerizer/Dockerfile .
         echo "Running Docker container for web application..."
-        docker run --rm -d -p 80:80 --name angular-nes-css angular-nes-css
+        docker run --rm -d --network virtual-network -p 80:80 --name angular-nes-css angular-nes-css
     
     - name: Run Api test
       working-directory: ./tests/api-test
@@ -62,7 +65,7 @@ jobs:
       working-directory: ./tests/ui-test
       run: |
         echo "Running Web Test script..."
-        docker-compose run --rm -e WEB_URL=http://angular-nes-css:80 cypress
+        docker-compose run --rm --network virtual-network -e WEB_URL=http://angular-nes-css:80 cypress
 
       continue-on-error: false
 
