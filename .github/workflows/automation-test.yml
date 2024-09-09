@@ -40,7 +40,7 @@ jobs:
       working-directory: ./
       run: |
         echo "Building Docker image for web application..."
-        docker build -t angular-nes-css ./dockerizer
+        docker build -t angular-nes-css -f ./dockerizer/Dockerfile .
         echo "Running Docker container for web application..."
         docker run --rm -d -p 80:80 --name angular-nes-css angular-nes-css
 
