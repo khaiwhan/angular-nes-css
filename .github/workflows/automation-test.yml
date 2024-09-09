@@ -43,6 +43,23 @@ jobs:
         docker build -t angular-nes-css -f ./dockerizer/Dockerfile .
         echo "Running Docker container for web application..."
         docker run --rm -d -p 80:80 --name angular-nes-css angular-nes-css
+    
+    - name: Check if web container is running
+      run: |
+        docker ps -a
+        docker logs angular-nes-css
+
+    - name: Run Web test with retry
+      run: |
+        for i in {1..5}; do
+          if curl --fail http://localhost; then
+            echo "Web server is up, running tests..."
+            break
+          else
+            echo "Web server not ready yet, retrying in 5 seconds..."
+            sleep 5
+          fi
+        done
 
     - name: Run Api test
       working-directory: ./tests/api-test
@@ -62,7 +79,7 @@ jobs:
       working-directory: ./tests/ui-test
       run: |
         echo "Running Web Test script..."
-        docker-compose run --rm -e WEB_URL=http://localhost:80 cypress
+        docker-compose run --rm -e WEB_URL=http://localhost cypress
 
       continue-on-error: false
 
