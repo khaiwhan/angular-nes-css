@@ -65,7 +65,7 @@ jobs:
       working-directory: ./tests/ui-test
       run: |
         echo "Running Web Test script..."
-        docker-compose run --rm --network virtual-network -e WEB_URL=http://angular-nes-css:80 cypress
+        docker run --rm --network virtual-network -e WEB_URL=http://angular-nes-css:80 --name ui-test cypress
 
       continue-on-error: false
 
@@ -73,7 +73,7 @@ jobs:
       if: always()
       working-directory: ./tests/ui-test
       run: |
-        docker-compose down
+        docker stop ui-test
 
     - name: Run Load test
       working-directory: ./tests/load-test
