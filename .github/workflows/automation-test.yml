@@ -37,6 +37,7 @@ jobs:
         sudo chmod +x /usr/local/bin/docker-compose
 
     - name: Build and Run Web Application
+      working-directory: ./
       run: |
         echo "Building Docker image for web application..."
         docker build -t angular-nes-css ./dockerizer
