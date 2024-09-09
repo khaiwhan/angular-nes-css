@@ -62,7 +62,7 @@ jobs:
       working-directory: ./tests/ui-test
       run: |
         echo "Running Web Test script..."
-        docker-compose run --rm -e WEB_URL=http://localhost cypress
+        docker-compose run --rm -e WEB_URL=http://localhost:80 cypress
 
       continue-on-error: false
 
