@@ -1,0 +1,71 @@
+name: Automation Test
+
+on:
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Docker
+      run: |
+        # Add Docker's official GPG key:
+        sudo apt-get update
+        sudo apt-get install ca-certificates curl
+        sudo install -m 0755 -d /etc/apt/keyrings
+        sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
+        sudo chmod a+r /etc/apt/keyrings/docker.asc
+
+        # Add the repository to Apt sources:
+        echo \
+          "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
+          $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
+          sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+        sudo apt-get update
+
+    - name: Run Api test
+      working-directory: ./tests/api-test
+      run: |
+        echo "Running API Test script..."
+        docker-compose run --rm -e API_URL=https://66c7f957732bf1b79fa7e2b9.mockapi.io/item newman
+
+      continue-on-error: false
+
+    - name: Tear down
+      if: always()
+      working-directory: ./tests/api-test
+      run: |
+        docker-compose down
+
+    - name: Run Web test
+      working-directory: ./tests/ui-test
+      run: |
+        echo "Running Web Test script..."
+        docker-compose run --rm -e WEB_URL=https://angular-nes-css.vercel.app/ cypress
+
+      continue-on-error: false
+
+    - name: Tear down
+      if: always()
+      working-directory: ./tests/ui-test
+      run: |
+        docker-compose down
+
+    - name: Run Load test
+      working-directory: ./tests/load-test
+      run: |
+        echo "Running Load Test script..."
+        docker-compose run --rm -e API_URL=https://66c7f957732bf1b79fa7e2b9.mockapi.io/item k6 
+
+      continue-on-error: false
+
+    - name: Tear down
+      if: always()
+      working-directory: ./tests/load-test
+      run: |
+        docker-compose down
