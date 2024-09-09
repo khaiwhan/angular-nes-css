@@ -42,7 +42,7 @@ jobs:
         echo "Building Docker image for web application..."
         docker build -t angular-nes-css -f ./dockerizer/Dockerfile .
         echo "Running Docker container for web application..."
-        docker run --rm -d -p 80:80 --name angular-nes-css angular-nes-css
+        docker run --rm -d -p 8888:80 --name angular-nes-css angular-nes-css
     
     - name: Check if web container is running
       run: |
@@ -52,7 +52,7 @@ jobs:
     - name: Run Web test with retry
       run: |
         for i in {1..5}; do
-          if curl --fail http://localhost; then
+          if curl --fail http://localhost:8888; then
             echo "Web server is up, running tests..."
             break
           else
@@ -79,7 +79,7 @@ jobs:
       working-directory: ./tests/ui-test
       run: |
         echo "Running Web Test script..."
-        docker-compose run --rm -e WEB_URL=http://localhost cypress
+        docker-compose run --rm -e WEB_URL=http://localhost:8888 cypress
 
       continue-on-error: false
 
