@@ -40,7 +40,7 @@ jobs:
       working-directory: ./tests/api-test
       run: |
         echo "Running API Test script..."
-        docker-compose run --rm -e API_URL=https://66c7f957732bf1b79fa7e2b9.mockapi.io/item newman
+        docker-compose run --rm -e API_URL=${{ secrets.API_URL }} newman
 
       continue-on-error: false
 
@@ -54,7 +54,7 @@ jobs:
       working-directory: ./tests/ui-test
       run: |
         echo "Running Web Test script..."
-        docker-compose run --rm -e WEB_URL=https://angular-nes-css.vercel.app/ cypress
+        docker-compose run --rm -e WEB_URL=${{ secrets.WEB_URL }} cypress
 
       continue-on-error: false
 
@@ -68,7 +68,7 @@ jobs:
       working-directory: ./tests/load-test
       run: |
         echo "Running Load Test script..."
-        docker-compose run --rm -e API_URL=https://66c7f957732bf1b79fa7e2b9.mockapi.io/item k6 
+        docker-compose run --rm -e API_URL=${{ secrets.API_URL }} k6 
 
       continue-on-error: false
 
