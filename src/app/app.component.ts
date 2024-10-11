@@ -10,4 +10,7 @@ import { RouterOutlet } from '@angular/router';
 })
 export class AppComponent {
   title = 'angular-nes-css';
+  constructor() {
+    console.log("Hello")
+  }
 }
